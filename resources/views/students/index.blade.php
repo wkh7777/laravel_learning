@@ -1,46 +1,48 @@
-<!doctype html>
-<html lang="en">
+@extends('layouts.main')
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
-
-<body>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
-
-    <div class="container-lg">
-
-        <div class="page-title">
-            <h1>Student details</h1>
-        </div>
-
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Phone</th>
-                    <th scope="col">Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($students as $student)
-                    <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
-                        <td>{{ $student->name }}</td>
-                        <td>{{ $student->phone }}</td>
-                        <td>{{ $student->email }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+@section('title', 'Student list')
+@section('content')
+    <div class="page-title py-5">
+        <h1>Students list</h1>
+        @if (Session::has('msg'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ Session::get('msg') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+        <a class="btn btn-success my-3" href="{{ url('students/create') }}">Add new student</a>
     </div>
-</body>
 
-</html>
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Email</th>
+                <th scope="col">Created at</th>
+                <th scope="col">Updated at</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($students as $student)
+                <tr>
+                    <th scope="row">{{ $student->id }}</th>
+                    <td>{{ $student->name }}</td>
+                    <td>{{ $student->phone }}</td>
+                    <td>{{ $student->email }}</td>
+                    <td>{{ $student->created_at }}</td>
+                    <td>{{ $student->updated_at->diffForHumans() }}</td>
+                    <td>
+                        <div>
+                            <a href="{{ url('students/edit/' . $student->id) }}" class="btn btn-warning">Edit</a>
+                            <a href="" class="btn btn-danger">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+    </div>
+@endsection
