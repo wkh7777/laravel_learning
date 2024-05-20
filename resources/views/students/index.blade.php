@@ -27,6 +27,7 @@
             </tr>
         </thead>
         <tbody>
+
             @forelse ($students as $student)
                 <tr>
                     <th scope="row">{{ $student->id }}</th>
@@ -56,5 +57,4 @@
         </tbody>
     </table>
     {{ $students->links() }}
-    </div>
 @endsection
